@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.544">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Introduction to Agent-Based Modeling</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="IntroToAgentBasedModeling_files/libs/clipboard/clipboard.min.js"></script>
+<script src="IntroToAgentBasedModeling_files/libs/quarto-html/quarto.js"></script>
+<script src="IntroToAgentBasedModeling_files/libs/quarto-html/popper.min.js"></script>
+<script src="IntroToAgentBasedModeling_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="IntroToAgentBasedModeling_files/libs/quarto-html/anchor.min.js"></script>
+<link href="IntroToAgentBasedModeling_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="IntroToAgentBasedModeling_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="IntroToAgentBasedModeling_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="IntroToAgentBasedModeling_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="IntroToAgentBasedModeling_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="1">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction-to-agent-based-modeling" id="toc-introduction-to-agent-based-modeling" class="nav-link active" data-scroll-target="#introduction-to-agent-based-modeling"><span class="header-section-number">1</span> Introduction to Agent-Based Modeling</a>
+  <ul class="collapse">
+  <li><a href="#motivation-agent-based-modeling-of-complex-systems" id="toc-motivation-agent-based-modeling-of-complex-systems" class="nav-link" data-scroll-target="#motivation-agent-based-modeling-of-complex-systems"><span class="header-section-number">1.1</span> Motivation | Agent-based modeling of complex systems</a>
+  <ul class="collapse">
+  <li><a href="#learning-goals" id="toc-learning-goals" class="nav-link" data-scroll-target="#learning-goals">Learning goals</a></li>
+  </ul></li>
+  <li><a href="#overview-generative-social-science" id="toc-overview-generative-social-science" class="nav-link" data-scroll-target="#overview-generative-social-science"><span class="header-section-number">1.2</span> Overview | Generative social science</a>
+  <ul class="collapse">
+  <li><a href="#essence-of-agent-based-modeling" id="toc-essence-of-agent-based-modeling" class="nav-link" data-scroll-target="#essence-of-agent-based-modeling">Essence of agent-based modeling</a></li>
+  <li><a href="#generative-social-science" id="toc-generative-social-science" class="nav-link" data-scroll-target="#generative-social-science">Generative Social Science</a></li>
+  <li><a href="#features-of-agent-based-modeling" id="toc-features-of-agent-based-modeling" class="nav-link" data-scroll-target="#features-of-agent-based-modeling">Features of agent-based modeling</a></li>
+  <li><a href="#the-generativists-experiment" id="toc-the-generativists-experiment" class="nav-link" data-scroll-target="#the-generativists-experiment">The generativist’s experiment</a></li>
+  <li><a href="#variants-of-agent-based-modeling" id="toc-variants-of-agent-based-modeling" class="nav-link" data-scroll-target="#variants-of-agent-based-modeling">Variants of agent-based modeling</a></li>
+  </ul></li>
+  <li><a href="#example-conways-game-of-life" id="toc-example-conways-game-of-life" class="nav-link" data-scroll-target="#example-conways-game-of-life"><span class="header-section-number">1.3</span> Example | Conway’s Game of Life</a>
+  <ul class="collapse">
+  <li><a href="#questions" id="toc-questions" class="nav-link" data-scroll-target="#questions">Questions</a></li>
+  <li><a href="#states" id="toc-states" class="nav-link" data-scroll-target="#states">States</a></li>
+  <li><a href="#dynamics" id="toc-dynamics" class="nav-link" data-scroll-target="#dynamics">Dynamics</a></li>
+  <li><a href="#emerging-structures" id="toc-emerging-structures" class="nav-link" data-scroll-target="#emerging-structures">Emerging structures</a></li>
+  <li><a href="#impact" id="toc-impact" class="nav-link" data-scroll-target="#impact">Impact</a></li>
+  </ul></li>
+  <li><a href="#example-schellings-segregation-model" id="toc-example-schellings-segregation-model" class="nav-link" data-scroll-target="#example-schellings-segregation-model"><span class="header-section-number">1.4</span> Example | Schelling’s segregation model</a>
+  <ul class="collapse">
+  <li><a href="#questions-1" id="toc-questions-1" class="nav-link" data-scroll-target="#questions-1">Questions</a></li>
+  <li><a href="#context" id="toc-context" class="nav-link" data-scroll-target="#context">Context</a></li>
+  <li><a href="#the-model" id="toc-the-model" class="nav-link" data-scroll-target="#the-model">The Model</a></li>
+  <li><a href="#implementation" id="toc-implementation" class="nav-link" data-scroll-target="#implementation">Implementation</a></li>
+  <li><a href="#interpretation" id="toc-interpretation" class="nav-link" data-scroll-target="#interpretation">Interpretation</a></li>
+  </ul></li>
+  <li><a href="#exercise-1-performance-metric" id="toc-exercise-1-performance-metric" class="nav-link" data-scroll-target="#exercise-1-performance-metric"><span class="header-section-number">1.5</span> Exercise 1 | Performance metric</a>
+  <ul class="collapse">
+  <li><a href="#implementation-1" id="toc-implementation-1" class="nav-link" data-scroll-target="#implementation-1">Implementation</a></li>
+  <li><a href="#testing" id="toc-testing" class="nav-link" data-scroll-target="#testing">Testing</a></li>
+  </ul></li>
+  <li><a href="#exercise-2-influence-of-same-typed-required" id="toc-exercise-2-influence-of-same-typed-required" class="nav-link" data-scroll-target="#exercise-2-influence-of-same-typed-required"><span class="header-section-number">1.6</span> Exercise 2 | Influence of same typed required</a>
+  <ul class="collapse">
+  <li><a href="#parameters" id="toc-parameters" class="nav-link" data-scroll-target="#parameters">Parameters</a></li>
+  <li><a href="#simulation" id="toc-simulation" class="nav-link" data-scroll-target="#simulation">Simulation</a></li>
+  <li><a href="#visualization" id="toc-visualization" class="nav-link" data-scroll-target="#visualization">Visualization</a></li>
+  </ul></li>
+  <li><a href="#challenges-of-agent-based-modeling" id="toc-challenges-of-agent-based-modeling" class="nav-link" data-scroll-target="#challenges-of-agent-based-modeling"><span class="header-section-number">1.7</span> Challenges of agent-based modeling</a></li>
+  <li><a href="#learning-goals-revisited" id="toc-learning-goals-revisited" class="nav-link" data-scroll-target="#learning-goals-revisited"><span class="header-section-number">1.8</span> Learning goals revisited</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">1.9</span> References</a></li>
+  </ul></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="IntroToAgentBasedModeling.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Introduction to Agent-Based Modeling</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction-to-agent-based-modeling" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Introduction to Agent-Based Modeling</h1>
+<p><a href="https://wbarfuss.github.io">Wolfram Barfuss</a> | ZEF - Modeling Course | March 20, 2025 &gt; <a href="https://colab.research.google.com/github/wbarfuss/ZEF-IntroABM/blob/main/IntroToAgentBasedModeling.ipynb">Open this in Google Colab</a>.</p>
+<p>This introduction to agent-based modeling (ABM) derives from the course “<a href="https://wbarfuss.github.io/csm-of-hei/">Complex Systems Modeling of Human-Environment Interactions</a>”. Feel free to consult it for more topics on this subject.</p>
+<section id="motivation-agent-based-modeling-of-complex-systems" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="motivation-agent-based-modeling-of-complex-systems"><span class="header-section-number">1.1</span> Motivation | Agent-based modeling of complex systems</h2>
+<p>The distinctive feature of the science of complex systems is the fascination that arises when <strong>the whole becomes greater than the sum of its parts</strong> (<a href="#fig-ComplexSystem" class="quarto-xref">Figure&nbsp;1</a>) and properties on the macro-level emerge that do not exist on the micro-level.</p>
+<div id="fig-ComplexSystem" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ComplexSystem-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/ComplexSystem.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ComplexSystem-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Properties of a complex system
+</figcaption>
+</figure>
+</div>
+<p>Complex systems thinking is instrumental in understanding the <strong>interactions</strong> between <strong>society</strong> and <strong>nature</strong> (<a href="#fig-ComplexNatureSocietySystems" class="quarto-xref">Figure&nbsp;2</a>).</p>
+<div id="fig-ComplexNatureSocietySystems" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ComplexNatureSocietySystems-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/ComplexNatureSocietySystems.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ComplexNatureSocietySystems-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Complex Society-Nature Systems
+</figcaption>
+</figure>
+</div>
+<p><strong>Agent-based models capture the features of a complex system in the most direct way</strong>, in that they model the behavior of individual agents and their interactions.</p>
+<section id="learning-goals" class="level3">
+<h3 class="anchored" data-anchor-id="learning-goals">Learning goals</h3>
+<p>After this lecture, students will be able to:</p>
+<ol type="1">
+<li>Explain the history and rationale of agent-based modeling and generative social science</li>
+<li>Explain the advantages and challenges of agent-based modeling</li>
+<li>Simulate one famous agent-based model in Python</li>
+</ol>
+<div id="e3b462ce-7464-4ee0-ae0a-c8afcbd3285a" class="cell" data-editable="true" data-slideshow="{&quot;slide_type&quot;:&quot;subslide&quot;}" data-tags="[]" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np  </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> copy <span class="im">import</span> deepcopy</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.style <span class="im">as</span> style<span class="op">;</span> style.use(<span class="st">'seaborn-v0_8'</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>plt.rcParams[<span class="st">'figure.figsize'</span>] <span class="op">=</span> (<span class="fl">7.8</span>, <span class="fl">2.5</span>)<span class="op">;</span> plt.rcParams[<span class="st">'figure.dpi'</span>] <span class="op">=</span> <span class="dv">300</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>plt.rcParams[<span class="st">'axes.facecolor'</span>] <span class="op">=</span> <span class="st">'white'</span><span class="op">;</span> plt.rcParams[<span class="st">'grid.color'</span>] <span class="op">=</span> <span class="st">'gray'</span><span class="op">;</span> </span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>plt.rcParams[<span class="st">'grid.linewidth'</span>] <span class="op">=</span> <span class="fl">0.25</span><span class="op">;</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="overview-generative-social-science" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="overview-generative-social-science"><span class="header-section-number">1.2</span> Overview | Generative social science</h2>
+<section id="essence-of-agent-based-modeling" class="level3">
+<h3 class="anchored" data-anchor-id="essence-of-agent-based-modeling">Essence of agent-based modeling</h3>
+<p>An agent-based model <strong>explicitly</strong> represents the <strong>individual units</strong> of the system and their repeated <strong>interactions</strong>. Beyond this, no further assumptions are made in agent-based modeling <span class="citation" data-cites="IzquierdoEtAl2024">(<a href="#ref-IzquierdoEtAl2024" role="doc-biblioref">Izquierdo, Izquierdo, and Sandholm 2024</a>)</span>.</p>
+<p>Hence, agent-based modeling is <strong>a very flexible modeling framework</strong>.</p>
+<blockquote class="blockquote">
+<p>You can model anything with an agent-based model, but you are not guaranteed to understand it.</p>
+</blockquote>
+<p>Adding complexity to your model allows you to study different phenomena. However, it can make the analysis and understanding of the model more difficult, even with advanced mathematics. As a result, agent-based models are usually created using a programming language and analyzed through computer simulation. This method is so common that agent-based modeling and simulation are often seen as synonymous <span class="citation" data-cites="IzquierdoEtAl2024">(<a href="#ref-IzquierdoEtAl2024" role="doc-biblioref">Izquierdo, Izquierdo, and Sandholm 2024</a>)</span>.</p>
+</section>
+<section id="generative-social-science" class="level3">
+<h3 class="anchored" data-anchor-id="generative-social-science">Generative Social Science</h3>
+<p>The flexibility of ABM offers a <em>generative</em> approach to social science <span class="citation" data-cites="Epstein1999">(<a href="#ref-Epstein1999" role="doc-biblioref">Epstein 1999</a>)</span>. <strong>Explaining</strong> the <strong>emergence</strong> of <strong>macroscopic societal regularities</strong> requires that one answers the following question:</p>
+<blockquote class="blockquote">
+<p>How could the <strong>decentralized local interactions</strong> of <strong>heterogeneous autonomous agents</strong> <em>generate</em> the <strong>given regularity</strong>?</p>
+</blockquote>
+<p>Generative social science is a research approach that uses computational models to generate and explain complex social behaviors. It is characterized by a</p>
+<ul>
+<li>focus on explanation over prediction and</li>
+<li>its use of agent-based models to bridge the gap between micro and macro phenomena.</li>
+</ul>
+</section>
+<section id="features-of-agent-based-modeling" class="level3">
+<h3 class="anchored" data-anchor-id="features-of-agent-based-modeling">Features of agent-based modeling</h3>
+<p>Agent-based modeling allows us to cover some features that traditionally have been difficult to analyze mathematically <span class="citation" data-cites="Epstein1999 IzquierdoEtAl2024">(<a href="#ref-Epstein1999" role="doc-biblioref">Epstein 1999</a>; <a href="#ref-IzquierdoEtAl2024" role="doc-biblioref">Izquierdo, Izquierdo, and Sandholm 2024</a>)</span>:</p>
+<ul>
+<li><p><strong>Bounded Rationality</strong>, which has two components: bounded information and bounded computing power. Typically, agents use more or less sophisticated rules or heuristics based on local information. They do not have global information or infinite computational power.</p></li>
+<li><p><strong>Autonomy and the micro-macro link</strong>. ABM is particularly well suited to studying how global phenomena emerge from individual interactions and how these emergent global phenomena may constrain and shape individuals’ actions. In agent-based models, there is no central, or “top-down,” control over individual behavior. Micro and macro will typically co-evolve.</p></li>
+<li><p><strong>Out-of-equilibrium dynamics</strong>. Dynamics are inherent to ABM. Running a simulation consists of repeatedly applying the rules that define the model. Equilibria are never imposed a priori; they may emerge as an outcome of the simulation, or they may not.</p></li>
+<li><p><strong>Agents’ heterogeneity</strong>. Since agents are explicitly modeled, their diversity can vary according to the modeler’s preferences. Agents may differ in myriad ways — genetically, culturally, by social network, by preferences — all of which may change or adapt endogenously over time. Representative or aggregated agent methods - common in dynamic systems or target equilibria models - or not used.</p></li>
+<li><p><strong>Local interactions and explicit space</strong>. The fact that agents and their environment are represented explicitly in ABM makes it particularly straightforward and natural to model local interactions.</p></li>
+<li><p><strong>Interdependencies between processes</strong> (e.g., demographic, economic, biological, geographical, technological) that have traditionally been studied in different disciplines and are not often analyzed together. An agent-based model does not restrict the type of rules that can be implemented, so models can include rules linking disparate aspects of the world that are often studied in different disciplines. This feature makes ABM particularly well suited to studying complex Nature-Society systems.</p></li>
+</ul>
+</section>
+<section id="the-generativists-experiment" class="level3">
+<h3 class="anchored" data-anchor-id="the-generativists-experiment">The generativist’s experiment</h3>
+<p>A given macroscopic regularity is to be explained by the canonical agent-based experiment as follows <span class="citation" data-cites="Epstein1999">(<a href="#ref-Epstein1999" role="doc-biblioref">Epstein 1999</a>)</span>:</p>
+<blockquote class="blockquote">
+<p>Situate an <strong>initial population</strong> of <strong>autonomous, heterogeneous agents</strong> in a relevant spatial environment; - allow them to <strong>interact</strong> according to simple <strong>local rules</strong>, - and thereby generate - or “<strong>grow</strong>” - the macroscopic regularity from the bottom up.</p>
+</blockquote>
+<p><strong>If you didn’t grow it, you didn’t explain its emergence.</strong> This generativist approach to social science has been successfully applied to explain the following phenomena:</p>
+<ul>
+<li>economic classes (Axtell etl al.&nbsp;1999)</li>
+<li>cooperation in spatial games (Lindgren and Nordahl, 1994; Epstein, 1998; Huberman and Glance, 1993; Nowak and May, 1992; Miller, 1996)</li>
+<li>voting behaviors (Kollman, Miller, and Page, 1992),</li>
+<li>demographic histories (Dean et al.&nbsp;1999)</li>
+<li>trade networks (Tesfatsion, 1995; Epstein and Axtell, 1996),</li>
+<li>right-skewed wealth distributions (Epstein and Axtell, 1996)</li>
+</ul>
+<p>… and many more!</p>
+</section>
+<section id="variants-of-agent-based-modeling" class="level3">
+<h3 class="anchored" data-anchor-id="variants-of-agent-based-modeling">Variants of agent-based modeling</h3>
+<p>As agent-based modeling is so flexible, various subcategories of models can be distinguished:</p>
+<ul>
+<li>Cellular automata</li>
+<li>Network models</li>
+<li>Learning and evolution models in games</li>
+<li>…</li>
+</ul>
+</section>
+</section>
+<section id="example-conways-game-of-life" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="example-conways-game-of-life"><span class="header-section-number">1.3</span> Example | Conway’s Game of Life</h2>
+<p>The Game of Life is a <strong>cellular automaton</strong> devised by the British mathematician John Horton Conway in 1970.</p>
+<p>A cellular automaton is a discrete model of computation consisting of a regular grid of cells, each in one of a finite number of states (e.g., on and off).</p>
+<p>The game of life is a very influential model in the field of complex systems (although Conway wasn’t particularly proud of it)</p>
+<section id="questions" class="level3">
+<h3 class="anchored" data-anchor-id="questions">Questions</h3>
+<p>The game of life is a comparably simple model to answer two very fundamental questions:</p>
+<ul>
+<li>How can something reproduce itself?</li>
+<li>How can a complex structure (like the mind) emerge from a basic set of rules?</li>
+</ul>
+</section>
+<section id="states" class="level3">
+<h3 class="anchored" data-anchor-id="states">States</h3>
+<p>The cells of the cellular automaton can be in one of two states: dead or alive.</p>
+<p>We can represent the state of a cell with a binary variable: 1 (black) for alive and 0 (white) for dead. The state of the whole system can the be represented as follows:</p>
+<div id="fcf3806b-a3ca-46f7-ac0d-bab9565834b1" class="cell" data-editable="true" data-slideshow="{&quot;slide_type&quot;:&quot;slide&quot;}" data-tags="[]" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ROWS, COLS <span class="op">=</span> <span class="dv">10</span>, <span class="dv">25</span>  <span class="co"># define the size of the grid</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>grid <span class="op">=</span> np.random.choice([<span class="dv">0</span>, <span class="dv">1</span>], size<span class="op">=</span>(ROWS, COLS), p<span class="op">=</span>[<span class="fl">0.7</span>, <span class="fl">0.3</span>]) <span class="co">#generate random states</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>plt.imshow(grid, cmap<span class="op">=</span><span class="st">'binary'</span>, interpolation<span class="op">=</span><span class="st">'none'</span>) <span class="co"># plot the grid</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>plt.gca().set_xticks([])<span class="op">;</span> plt.gca().set_yticks([])<span class="op">;</span>  <span class="co"># remove x and y ticks</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="IntroToAgentBasedModeling_files/figure-html/cell-4-output-1.png" class="img-fluid figure-img"></p>
+<figcaption>A Game-of-Life grid</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="dynamics" class="level3">
+<h3 class="anchored" data-anchor-id="dynamics">Dynamics</h3>
+<p>The dynamics of the game of life are governed by the following rules:</p>
+<ul>
+<li>Living cells with fewer than two living neighbors die</li>
+<li>Living cells with more than three living neighbors die</li>
+<li>Dead cells with exactly three neighbors become alive</li>
+</ul>
+</section>
+<section id="emerging-structures" class="level3">
+<h3 class="anchored" data-anchor-id="emerging-structures">Emerging structures</h3>
+<p>Despite the simplicity of the rules, complex structures of <em>species</em> <strong>moving</strong> and <strong>reproducing</strong> can emerge from these rules, despite them not having any concept of movement or reproduction.</p>
+<p>See, for example, the <a href="https://www.youtube.com/watch?v=C2vgICfQawE&amp;start=69">Epic Conway’s Game of Life</a> or <a href="https://www.youtube.com/watch?v=xP5-iIeKXE8">Life in life</a> videos.</p>
+<div id="c5677ee8-df08-421f-a54d-f3fddfa99aa8" class="cell" data-editable="true" data-slideshow="{&quot;slide_type&quot;:&quot;&quot;}" data-tags="[&quot;remove-input&quot;]" data-execution_count="4">
+<div class="cell-output cell-output-display" data-execution_count="4">
+
+        <iframe width="100%" height="450" src="https://www.youtube-nocookie.com/embed/C2vgICfQawE?si=mZwjScJgUXtrdias&amp;start=69" frameborder="0" allowfullscreen=""></iframe>
+        
+</div>
+</div>
+<div id="48f0fdf0-b6d6-4817-adfa-85c61b1757fc" class="cell" data-editable="true" data-slideshow="{&quot;slide_type&quot;:&quot;&quot;}" data-tags="[&quot;remove-input&quot;]" data-execution_count="5">
+<div class="cell-output cell-output-display" data-execution_count="5">
+
+        <iframe width="100%" height="450" src="https://www.youtube-nocookie.com/embed/xP5-iIeKXE8?si=pKbPoOqfOruDlFxT" frameborder="0" allowfullscreen=""></iframe>
+        
+</div>
+</div>
+</section>
+<section id="impact" class="level3">
+<h3 class="anchored" data-anchor-id="impact">Impact</h3>
+<p>Although the rules are incredibly simple, it is impossible to say whether a given configuration persists or eventually dies out. <strong>There are fundamental limits to prediction</strong>.</p>
+<p>It was shown that you can do any form of computation (that you can do on a regular computer) with the game of life.</p>
+<p>Complex behavior does not require complicated rules. Complex behavior can emerge from simple rules. This realization has been a key insight of complexity sciences and has shaped the way complexity science is done today.</p>
+<p>See <a href="https://www.youtube.com/watch?v=R9Plq-D1gEk">Inventing Game of Life (John Conway) - Numberphile</a> for a nice interview around the backstory of the game of life.</p>
+<div id="8c609fc1-06b1-4e7c-9ee6-fa0a79e3d56b" class="cell" data-editable="true" data-slideshow="{&quot;slide_type&quot;:&quot;&quot;}" data-tags="[]" data-execution_count="6">
+<div class="cell-output cell-output-display" data-execution_count="6">
+
+        <iframe width="100%" height="450" src="https://www.youtube-nocookie.com/embed/R9Plq-D1gEk?si=p2sIUInYX3jaRcck" frameborder="0" allowfullscreen=""></iframe>
+        
+</div>
+</div>
+</section>
+</section>
+<section id="example-schellings-segregation-model" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="example-schellings-segregation-model"><span class="header-section-number">1.4</span> Example | Schelling’s segregation model</h2>
+<p>The second example model studies the phenomenon of racially segregated neighborhoods. The content here is heavily inspired by <a href="https://python.quantecon.org/schelling.html">QuantEcon’s Quantitative Economics with Python</a>.</p>
+<section id="questions-1" class="level3">
+<h3 class="anchored" data-anchor-id="questions-1">Questions</h3>
+<p>We observe racially segregated neighborhoods.</p>
+<p>Does that mean that all residents are racists?</p>
+</section>
+<section id="context" class="level3">
+<h3 class="anchored" data-anchor-id="context">Context</h3>
+<p>In 1969, Thomas C. Schelling developed a simple but striking model of racial segregation.</p>
+<p>His model studies the dynamics of racially mixed neighborhoods.</p>
+<p>Like much of Schelling’s work, the model shows how local interactions can lead to surprising aggregate structure.</p>
+<p>In particular, it shows that relatively mild preference for neighbors of similar race can lead in aggregate to the collapse of mixed neighborhoods, and high levels of segregation.</p>
+<p>In recognition of this and other research, Schelling was awarded the 2005 Nobel Prize in Economic Sciences (joint with Robert Aumann).</p>
+</section>
+<section id="the-model" class="level3">
+<h3 class="anchored" data-anchor-id="the-model">The Model</h3>
+<p>We will cover a variation of Schelling’s model that is easy to program and captures the main idea.</p>
+<section id="set-up" class="level4">
+<h4 class="anchored" data-anchor-id="set-up">Set-Up</h4>
+<p>Suppose we have two types of people: orange people and green people.</p>
+<p>For the purpose of this lecture, we will assume there are 250 of each type.</p>
+<p>These agents all live on a single-unit square.</p>
+<p>The location of an agent is just a point <span class="math inline">\((x, y)\)</span>, where <span class="math inline">\(0 &lt; x, y &lt; 1\)</span>.</p>
+</section>
+<section id="preferences" class="level4">
+<h4 class="anchored" data-anchor-id="preferences">Preferences</h4>
+<p>We will say that an agent is <em>happy</em> if half or more of her 10 nearest neighbors are of the same type.</p>
+<p>Here ‘nearest’ is in terms of <a href="https://en.wikipedia.org/wiki/Euclidean_distance">Euclidean distance</a>.</p>
+<p>An agent who is not happy is called <em>unhappy</em>.</p>
+<p>An important point here is that agents are not averse to living in mixed areas.</p>
+<p>They are perfectly happy if half their neighbors are of the other color.</p>
+</section>
+<section id="behavior" class="level4">
+<h4 class="anchored" data-anchor-id="behavior">Behavior</h4>
+<p>Initially, agents are mixed together (integrated).</p>
+<p>In particular, the initial location of each agent is an independent draw from a bivariate uniform distribution on <span class="math inline">\(S = (0, 1)^2\)</span>.</p>
+<p>Now, cycling through the set of all agents, each agent is now given the chance to stay or move.</p>
+<p>We assume that each agent will stay put if they are happy and move if unhappy.</p>
+<p>The algorithm for moving is as follows</p>
+<ol type="1">
+<li>Draw a random location in <span class="math inline">\(S\)</span><br>
+</li>
+<li>If happy at the new location, move there<br>
+</li>
+<li>Else, go to step 1</li>
+</ol>
+<p>In this way, we cycle continuously through the agents, moving as required.</p>
+<p>We continue to cycle until no one wishes to move.</p>
+</section>
+</section>
+<section id="implementation" class="level3">
+<h3 class="anchored" data-anchor-id="implementation">Implementation</h3>
+<p>We use <a href="https://en.wikipedia.org/wiki/Object-oriented_programming">object-oriented programming</a> (OOP) to model agents as objects.</p>
+<p>OOP is a programming paradigm based on the concept of objects, which can contain data and code: - data in the form of fields (often known as attributes or properties), and - code in the form of procedures (often known as methods).</p>
+<section id="agent-class" class="level4">
+<h4 class="anchored" data-anchor-id="agent-class">Agent class</h4>
+<p>A class defines how an object will work. Typically, the class will define several methods that operate on instances of the class. A key method is the <code>__init__</code> method, which is called when an object is created.</p>
+<div id="6643260f-cf8d-4c1c-aa8e-dc1714203b7b" class="cell" data-editable="true" data-hide-output="false" data-slideshow="{&quot;slide_type&quot;:&quot;&quot;}" data-tags="[]" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Agent: </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># The init method is called when the object is created.</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, <span class="bu">type</span>, num_neighbors, require_same_type): </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.<span class="bu">type</span> <span class="op">=</span> <span class="bu">type</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.draw_location()</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.num_neighbors <span class="op">=</span> num_neighbors</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.require_same_type <span class="op">=</span> require_same_type</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> draw_location(<span class="va">self</span>):</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.location <span class="op">=</span> np.random.uniform(<span class="dv">0</span>, <span class="dv">1</span>), np.random.uniform(<span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get_distance(<span class="va">self</span>, other):</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>        <span class="co">"Computes the Euclidean distance between self and another agent."</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        a <span class="op">=</span> (<span class="va">self</span>.location[<span class="dv">0</span>] <span class="op">-</span> other.location[<span class="dv">0</span>])<span class="op">**</span><span class="dv">2</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>        b <span class="op">=</span> (<span class="va">self</span>.location[<span class="dv">1</span>] <span class="op">-</span> other.location[<span class="dv">1</span>])<span class="op">**</span><span class="dv">2</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> np.sqrt(a <span class="op">+</span> b)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> number_same_type(<span class="va">self</span>, agents):</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>        <span class="co">"Number of neighbors of same type."</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>        distances <span class="op">=</span> []</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>        <span class="co"># distances is a list of pairs (d, agent), where d is the distance from</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>        <span class="co"># agent to self</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> agent <span class="kw">in</span> agents:</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="va">self</span> <span class="op">!=</span> agent:</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>                distance <span class="op">=</span> <span class="va">self</span>.get_distance(agent)</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>                distances.append((distance, agent))</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>        <span class="co"># == Sort from smallest to largest, according to distance == #</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>        distances.sort()</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>        <span class="co"># == Extract the neighboring agents == #</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>        neighbors <span class="op">=</span> [agent <span class="cf">for</span> d, agent <span class="kw">in</span> distances[:<span class="va">self</span>.num_neighbors]]</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>        <span class="co"># == Count how many neighbors have the same type as self == #</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">sum</span>(<span class="va">self</span>.<span class="bu">type</span> <span class="op">==</span> agent.<span class="bu">type</span> <span class="cf">for</span> agent <span class="kw">in</span> neighbors)</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> happy(<span class="va">self</span>, agents):</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>        <span class="co">"True if a sufficient number of nearest neighbors are of the same type."</span></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>        num_same_type <span class="op">=</span> <span class="va">self</span>.number_same_type(agents)</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> num_same_type <span class="op">&gt;=</span> <span class="va">self</span>.require_same_type</span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> update(<span class="va">self</span>, agents):</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>        <span class="co">"If not happy, then randomly choose new locations until happy."</span></span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="kw">not</span> <span class="va">self</span>.happy(agents):</span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.draw_location()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Testing the agent class:</p>
+<div id="ccd693cc-8cb5-4fd0-a4e0-b7f52fa252a8" class="cell" data-editable="true" data-slideshow="{&quot;slide_type&quot;:&quot;&quot;}" data-tags="[]" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> Agent(<span class="dv">0</span>, num_neighbors<span class="op">=</span><span class="dv">4</span>, require_same_type<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">type</span>(A)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<pre><code>__main__.Agent</code></pre>
+</div>
+</div>
+<div id="3366a087-3c55-478c-b978-9e082b3221c2" class="cell" data-editable="true" data-slideshow="{&quot;slide_type&quot;:&quot;&quot;}" data-tags="[]" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>A.location</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>(0.8986239719272817, 0.19701193357151414)</code></pre>
+</div>
+</div>
+<p>Creating a list of agents:</p>
+<div id="a94b1bf2-12f7-42dd-a59f-4afc3ad350ab" class="cell" data-editable="true" data-slideshow="{&quot;slide_type&quot;:&quot;&quot;}" data-tags="[]" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">4</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>agents <span class="op">=</span> [Agent(<span class="dv">0</span>, <span class="dv">4</span>, <span class="dv">2</span>) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">100</span>)]</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>agents.extend(Agent(<span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">2</span>) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">100</span>))</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="bu">len</span>(agents)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<pre><code>200</code></pre>
+</div>
+</div>
+<p>Is agent three happy?</p>
+<div id="50442652-05df-4c69-a409-c02603e67423" class="cell" data-editable="true" data-slideshow="{&quot;slide_type&quot;:&quot;&quot;}" data-tags="[]" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>a3 <span class="op">=</span> agents[<span class="dv">3</span>]</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>a3.happy(agents), a3.location</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<pre><code>(False, (0.9762744547762418, 0.006230255204589863))</code></pre>
+</div>
+</div>
+<p>Let’s let agent three update its position:</p>
+<div id="be67fb3e-4188-47f0-8e06-ee72ea18dcc4" class="cell" data-editable="true" data-slideshow="{&quot;slide_type&quot;:&quot;&quot;}" data-tags="[]" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>a3.update(agents)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="1976fdd8-a88c-4b5b-8802-494d74059444" class="cell" data-editable="true" data-slideshow="{&quot;slide_type&quot;:&quot;&quot;}" data-tags="[]" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>agents[<span class="dv">3</span>].happy(agents), agents[<span class="dv">3</span>].location</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<pre><code>(True, (0.06780815958339637, 0.961674586087924))</code></pre>
+</div>
+</div>
+</section>
+<section id="observation-function" class="level4">
+<h4 class="anchored" data-anchor-id="observation-function">Observation function</h4>
+<p>We implement a function to plot the distribution of agents.</p>
+<div id="31da6935-5501-4413-8369-b3b876032973" class="cell" data-editable="true" data-hide-output="false" data-slideshow="{&quot;slide_type&quot;:&quot;&quot;}" data-tags="[]" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_distribution(agents, cycle_num, ax<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"Plot the distribution of agents after cycle_num rounds of the loop."</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    x_values_0, y_values_0 <span class="op">=</span> [], []</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    x_values_1, y_values_1 <span class="op">=</span> [], []</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># == Obtain locations of each type == #</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> agent <span class="kw">in</span> agents:</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>        x, y <span class="op">=</span> agent.location</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> agent.<span class="bu">type</span> <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>            x_values_0.append(x)</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>            y_values_0.append(y)</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>            x_values_1.append(x)</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>            y_values_1.append(y)</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> ax <span class="kw">is</span> <span class="va">None</span>: fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">4</span>))</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    plot_args <span class="op">=</span> {<span class="st">'markersize'</span>: <span class="dv">4</span>, <span class="st">'alpha'</span>: <span class="fl">0.6</span>}</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ax.set_facecolor('azure')</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>    ax.plot(x_values_0, y_values_0, <span class="st">'o'</span>, markerfacecolor<span class="op">=</span><span class="st">'orange'</span>, <span class="op">**</span>plot_args)</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>    ax.plot(x_values_1, y_values_1, <span class="st">'o'</span>, markerfacecolor<span class="op">=</span><span class="st">'green'</span>, <span class="op">**</span>plot_args)</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>    ax.set_xticks([])<span class="op">;</span> ax.set_yticks([])</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>    ax.set_title(<span class="ss">f'Cycle </span><span class="sc">{</span>cycle_num<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Testing the observation function,</p>
+<div id="a69c6969-ee7d-4c91-97ba-4773994e133c" class="cell" data-editable="true" data-slideshow="{&quot;slide_type&quot;:&quot;&quot;}" data-tags="[]" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>num_of_type_0 <span class="op">=</span> <span class="dv">250</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>num_of_type_1 <span class="op">=</span> <span class="dv">250</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>num_neighbors <span class="op">=</span> <span class="dv">10</span>      <span class="co"># Number of agents regarded as neighbors</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>require_same_type <span class="op">=</span> <span class="dv">5</span>   <span class="co"># Want at least this many neighbors to be same type</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co"># == Create a list of agents == #</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>agents <span class="op">=</span> [Agent(<span class="dv">0</span>, num_neighbors, require_same_type) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(num_of_type_0)]</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>agents.extend(Agent(<span class="dv">1</span>, num_neighbors, require_same_type) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(num_of_type_1))</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>plot_distribution(agents, <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="IntroToAgentBasedModeling_files/figure-html/cell-16-output-1.png" class="img-fluid figure-img"></p>
+<figcaption>Initial distribution of agents.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="simulation-run" class="level4">
+<h4 class="anchored" data-anchor-id="simulation-run">Simulation run</h4>
+<p>We define a Python function <code>run_model(agents, NumberOfSteps=None)</code> that simulates Schelling’s model for a given iterable of agents (<code>agents</code>) for <code>NumberOfSteps</code> times. If <code>NumberOfSteps</code> is not provided at the function call, the model should run until it is converged and no agent wants to move anymore. Finally, the function returns an iterable of agents after the model simulation and whether or not the simulation ended because if has converged.</p>
+<div id="c3498c74-eaa5-4269-98ad-4766d3ebc143" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> run_model(agents, NumberOfSteps<span class="op">=</span><span class="va">None</span>):   </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    step <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> converged<span class="op">=</span><span class="va">False</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">'Entering simulation step '</span>, step)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Update and check whether everyone is happy</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>        no_one_moved <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> agent <span class="kw">in</span> agents:</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>            old_location <span class="op">=</span> agent.location</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>            agent.update(agents)</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> agent.location <span class="op">!=</span> old_location:</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>                no_one_moved <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> no_one_moved:</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">'Converged, terminating.'</span>)</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>            converged<span class="op">=</span><span class="va">True</span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (NumberOfSteps <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>) <span class="kw">and</span> (step <span class="op">&gt;=</span> NumberOfSteps):</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>        step <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> agents, converged</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="761a97bf-a28f-4dd0-97d5-f46948be0fad" class="cell" data-editable="true" data-hide-output="false" data-slideshow="{&quot;slide_type&quot;:&quot;&quot;}" data-tags="[]" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">10</span>)  <span class="co"># For reproducible random numbers</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co"># == Main == #</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>num_of_type_0 <span class="op">=</span> <span class="dv">250</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>num_of_type_1 <span class="op">=</span> <span class="dv">250</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>num_neighbors <span class="op">=</span> <span class="dv">10</span>      <span class="co"># Number of agents regarded as neighbors</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>require_same_type <span class="op">=</span> <span class="dv">5</span>   <span class="co"># Want at least this many neighbors to be same type</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="co"># == Create a list of agents == #</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>agents <span class="op">=</span> [Agent(<span class="dv">0</span>, num_neighbors, require_same_type) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(num_of_type_0)]</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>agents.extend(Agent(<span class="dv">1</span>, num_neighbors, require_same_type) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(num_of_type_1))</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="co"># ==  Prepare the plot == #</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>fig, axs <span class="op">=</span> plt.subplots(<span class="dv">2</span>,<span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">13</span>, <span class="dv">6</span>))</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>axs.flatten()</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>count<span class="op">=</span><span class="dv">1</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'Entering loop '</span>, count)</span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>    plot_distribution(agents, count, axs.flatten()[count<span class="op">-</span><span class="dv">1</span>])</span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>    agents, converged <span class="op">=</span> run_model(agents, NumberOfSteps<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>    count <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> converged: </span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">'Converged, terminating.'</span>)</span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">break</span></span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Entering loop  1
+Entering simulation step  1
+Entering loop  2
+Entering simulation step  1
+Entering loop  3
+Entering simulation step  1
+Entering loop  4
+Entering simulation step  1
+Entering loop  5
+Entering simulation step  1
+Entering loop  6
+Entering simulation step  1
+Converged, terminating.
+Converged, terminating.</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="IntroToAgentBasedModeling_files/figure-html/cell-18-output-2.png" class="img-fluid figure-img"></p>
+<figcaption>A simulation run of Schelling’s model.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>In this instance, the program terminated after 6 cycles through the set of agents, indicating that all agents had reached a state of happiness.</p>
+</section>
+</section>
+<section id="interpretation" class="level3">
+<h3 class="anchored" data-anchor-id="interpretation">Interpretation</h3>
+<p>What is striking about the pictures is how rapidly racial integration breaks down.</p>
+<p>This is despite the fact that people in the model don’t actually mind living mixed with the other type.</p>
+<p>Even with these preferences, the outcome is a high degree of segregation.</p>
+</section>
+</section>
+<section id="exercise-1-performance-metric" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="exercise-1-performance-metric"><span class="header-section-number">1.5</span> Exercise 1 | Performance metric</h2>
+<p>If you want to consult a basic introduction to Python, you can refer to the <a href="https://wbarfuss.github.io/csm-of-hei/01.02ex-IntroToPython.html">Complex Systems Modeling of Human-Environment Interactions - Ex | Introduction to Python</a>.</p>
+<section id="implementation-1" class="level3">
+<h3 class="anchored" data-anchor-id="implementation-1">Implementation</h3>
+<p>Having a visual understanding of the model’s behavior is essential. However, it is also useful to have a quantitative measure of the model’s performance. Define a Python function <code>homogeneity(agents, num_neighbors)</code> that returns the average homogeneity of the agents. The homogeneity of an agent is the fraction of its neighbors that are of the same type. The average homogeneity is the average of the homogeneity of all agents.</p>
+<div id="f2aab996-84ce-4f0f-a9fc-77eee7611c89" class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="testing" class="level3">
+<h3 class="anchored" data-anchor-id="testing">Testing</h3>
+<p>Test your implementation by calculating the homogeneity of the initial and final agent distributions from the simulation above.</p>
+<div id="344d054c-856c-4f56-9787-bb4781f2996c" class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Convince yourself that the homogeneity is a useful measure of the model’s performance by repeating the simulation with the same parameters as above, except the number of neighbors required to be happy is set to 9. Visualize and calculate the homogeneity of the final agent distribution.</p>
+<div id="e31f93af-15c1-40c0-a598-331ff542d1c6" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="exercise-2-influence-of-same-typed-required" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="exercise-2-influence-of-same-typed-required"><span class="header-section-number">1.6</span> Exercise 2 | Influence of same typed required</h2>
+<p>In this exercise, we want to investigate how the number of <code>require_same_type</code> influences the final homogeneity of the population.</p>
+<section id="parameters" class="level3">
+<h3 class="anchored" data-anchor-id="parameters">Parameters</h3>
+<p>Simulate the model for the <code>require_same_type</code> variable from 1 to 9, keeping the <code>num_neighbors</code> considered to be always <code>10</code>. Also, the number of agents in both types stays at 250.</p>
+<div id="71885b07-9a30-4a3a-9e99-3c6b17c5a7a1" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>num_of_type_0 <span class="op">=</span> <span class="dv">250</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>num_of_type_1 <span class="op">=</span> <span class="dv">250</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>num_neighbors <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>require_same_types <span class="op">=</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="dv">1</span>,<span class="dv">10</span>))</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>require_same_types</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="19">
+<pre><code>[1, 2, 3, 4, 5, 6, 7, 8, 9]</code></pre>
+</div>
+</div>
+</section>
+<section id="simulation" class="level3">
+<h3 class="anchored" data-anchor-id="simulation">Simulation</h3>
+<p>As the simulation is stochastic, run each simulation precisely five times. Store the output in a variable <code>final_homogeneities</code> as follows:</p>
+<div id="c9b2a1d5-0b3c-4f3b-88e4-697957fdcf3a" class="cell" data-scrolled="true" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>final_homogeneities <span class="op">=</span> np.NaN <span class="op">*</span> np.ones((<span class="dv">9</span>, <span class="dv">5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The code for your simulation goes below:</p>
+<div id="71e6f784-e119-4ce4-a42a-ba77532045f1" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="visualization" class="level3">
+<h3 class="anchored" data-anchor-id="visualization">Visualization</h3>
+<p>Plot the final homogeneities (plus their averages) versus the number of neighbors considered.</p>
+<p>Briefly interpret your result.</p>
+<div id="2a79acf4-3d76-4e05-a6e2-3a0ef1550b0f" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="challenges-of-agent-based-modeling" class="level2" data-number="1.7">
+<h2 data-number="1.7" class="anchored" data-anchor-id="challenges-of-agent-based-modeling"><span class="header-section-number">1.7</span> Challenges of agent-based modeling</h2>
+<ul>
+<li><strong>Performance Limitations</strong>. The execution speed of ABMs can be slow, which can be a limitation for extensive simulations.</li>
+<li><strong>Transparency and Reproducibility</strong>. Providing a clear and accessible description is challenging due to model complexity.</li>
+<li><strong>Data Parameters and Validation</strong>. Getting empirical data and validating models that may simulate unobservable associations is challenging.</li>
+<li><strong>Arbitrariness and Parameterization</strong>. The many parameters that need to be set can lead to a high degree of arbitrariness.</li>
+<li><strong>Behavior modeling</strong>. There are endless possibilities to design plausible behavioral rules. A sensitivity analysis is difficult.</li>
+</ul>
+</section>
+<section id="learning-goals-revisited" class="level2" data-number="1.8">
+<h2 data-number="1.8" class="anchored" data-anchor-id="learning-goals-revisited"><span class="header-section-number">1.8</span> Learning goals revisited</h2>
+<p>We covered the history and rationale of agent-based modeling: <strong>generative social science</strong>.</p>
+<p>We covered the advantages (<strong>flexibility and expressiveness</strong>) and challenges (<strong>transparency</strong>, <strong>arbitrariness</strong>, <strong>performance</strong>) of agent-based modeling</p>
+<p>We implemented and simulated a famous agent-based model in Python: <strong>Schelling’s segregation model</strong>.</p>
+</section>
+<section id="references" class="level2 unnumbered" data-number="1.9">
+
+
+</section>
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">1.9 References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-Epstein1999" class="csl-entry" role="listitem">
+Epstein, Joshua M. 1999. <span>“Agent-Based Computational Models and Generative Social Science.”</span> <em>Complexity</em> 4 (5): 41–60. <a href="https://doi.org/10.1002/(SICI)1099-0526(199905/06)4:5<41::AID-CPLX9>3.0.CO;2-F">https://doi.org/10.1002/(SICI)1099-0526(199905/06)4:5&lt;41::AID-CPLX9&gt;3.0.CO;2-F</a>.
+</div>
+<div id="ref-IzquierdoEtAl2024" class="csl-entry" role="listitem">
+Izquierdo, Luis R., Segismundo S. Izquierdo, and William H. Sandholm. 2024. <em>Agent-<span>Based</span> <span>Evolutionary</span> <span>Game</span> <span>Dynamics</span></em>. <a href="https://doi.org/10.5281/zenodo.13938500">https://doi.org/10.5281/zenodo.13938500</a>.
+</div>
+</div></section></div></main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
