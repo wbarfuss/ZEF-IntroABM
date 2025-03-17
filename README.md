@@ -1,0 +1,1 @@
+Introduction to Agent-Based Modeling for [BIGS-DR Course on Modeling at ZEF](https://www.zef.de/doctoralprogram/study-program/course-modules.html).

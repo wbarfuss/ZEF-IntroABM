@@ -1,0 +1,10 @@
+/.quarto/
+/__output/
+/__slides/ 
+/solution/
+
+*__pycache__/
+*.ipynb_checkpoints/
+*.jupyter/
+*.quarto/
+*.DS_Store
